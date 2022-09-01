@@ -32,12 +32,45 @@ class MainActivityEspressoTest {
         onView(withId(R.id.searchEditText)).perform(replaceText("algol"), closeSoftKeyboard())
         onView(withId(R.id.searchEditText)).perform(pressImeActionButton())
 
-        if (BuildConfig.TYPE == MainActivity.FAKE) {
-            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 42")))
-        } else {
-            onView(isRoot()).perform(delay())
-            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2283")))
-        }
+
+        onView(isRoot()).perform(delay())
+        onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 3220")))
+    }
+
+    @Test
+    fun activitySearch_IsVisible() {
+        val assertion = matches(withEffectiveVisibility(Visibility.VISIBLE))
+        onView(withId(R.id.searchEditText)).check(assertion)
+    }
+
+    @Test
+    fun activityButton_IsVisible() {
+        val assertion = matches(withEffectiveVisibility(Visibility.VISIBLE))
+        onView(withId(R.id.toDetailsActivityButton)).check(assertion)
+    }
+
+    @Test
+    fun activityTotalCountTextView_IsInvisible() {
+        val assertion = matches(withEffectiveVisibility(Visibility.INVISIBLE))
+        onView(withId(R.id.totalCountTextView)).check(assertion)
+    }
+
+    @Test
+    fun activityProgressBar_IsGone() {
+        val assertion = matches(withEffectiveVisibility(Visibility.GONE))
+        onView(withId(R.id.progressBar)).check(assertion)
+    }
+
+    @Test
+    fun activityButtonText_IsToDetails() {
+        val assertion = matches(withText(R.string.to_details))
+        onView(withId(R.id.toDetailsActivityButton)).check(assertion)
+    }
+
+    @Test
+    fun activitySearchHint_IsEnterKeyword() {
+        val assertion = matches(withHint(R.string.search_hint))
+        onView(withId(R.id.searchEditText)).check(assertion)
     }
 
     private fun delay(): ViewAction? {
